@@ -30,23 +30,23 @@ const initialState = {
   topic1: [
     {
       from: "aaron",
-      msg: "hello"
+      msg: "hello",
     },
     {
       from: "arnold",
-      msg: "hello"
-    }
+      msg: "hello",
+    },
   ],
   topic2: [
     {
       from: "aaron",
-      msg: "hello"
+      msg: "hello",
     },
     {
       from: "aaron",
-      msg: "hello"
-    }
-  ]
+      msg: "hello",
+    },
+  ],
 };
 
 function reducer(state, action) {
@@ -60,9 +60,9 @@ function reducer(state, action) {
           ...state[topic],
           {
             from,
-            msg
-          }
-        ]
+            msg,
+          },
+        ],
       };
     default:
       return state;
@@ -77,8 +77,13 @@ function sendChatAction(value) {
 
 export default function Store(props) {
   if (!socket) {
-    socket = io(":3001"); // server port
-    socket.on("chat message", function(msg) {
+    socket = io(":3001", {
+      withCredentials: true,
+      extraHeaders: {
+        "my-custom-header": "abcd",
+      },
+    }); // server port
+    socket.on("chat message", function (msg) {
       dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
     });
   }
