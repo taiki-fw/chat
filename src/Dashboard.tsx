@@ -62,7 +62,7 @@ export default function Dashboard() {
             <List>
               {topics.map((topic, index) => (
                 <ListItem
-                  onClick={(e) => changeActiveTopic(e.target.innerText)}
+                  onClick={(e) => changeActiveTopic(topic)}
                   key={index}
                   button
                 >
@@ -73,14 +73,17 @@ export default function Dashboard() {
           </div>
           <div className={classes.chatWindow}>
             <List>
-              {allChats[activeTopic].map((chat, index) => (
-                <div className={classes.flex} key={index}>
-                  <Chip label={chat.from} className={classes.chip} />
-                  <Typography variant="body1" gutterBottom>
-                    {chat.msg}
-                  </Typography>
-                </div>
-              ))}
+              {
+                // @ts-ignore
+                allChats[activeTopic].map((chat, index) => (
+                  <div className={classes.flex} key={index}>
+                    <Chip label={chat.from} className={classes.button} />
+                    <Typography variant="body1" gutterBottom>
+                      {chat.msg}
+                    </Typography>
+                  </div>
+                ))
+              }
             </List>
           </div>
         </div>
