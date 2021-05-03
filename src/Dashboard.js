@@ -11,31 +11,31 @@ import TextField from "@material-ui/core/TextField";
 
 import { CTX } from "./Store";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: "50px",
-    padding: theme.spacing(3, 2)
+    padding: theme.spacing(3, 2),
   },
   flex: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   topicWindow: {
     width: "30%",
     height: "300px",
-    borderRight: "1px solid grey"
+    borderRight: "1px solid grey",
   },
   chatWindow: {
     width: "70%",
     height: "300px",
-    padding: "20px"
+    padding: "20px",
   },
   chatBox: {
-    width: "85%"
+    width: "85%",
   },
   button: {
-    width: "15%"
-  }
+    width: "15%",
+  },
 }));
 
 export default function Dashboard() {
@@ -62,7 +62,7 @@ export default function Dashboard() {
             <List>
               {topics.map((topic, index) => (
                 <ListItem
-                  onClick={e => changeActiveTopic(e.target.innerText)}
+                  onClick={(e) => changeActiveTopic(e.target.innerText)}
                   key={index}
                   button
                 >
@@ -89,14 +89,14 @@ export default function Dashboard() {
             label="Send a Chat"
             className={classes.chatBox}
             value={textValue}
-            onChange={e => changeTextValue(e.target.value)}
+            onChange={(e) => changeTextValue(e.target.value)}
           />
           <Button
             onClick={() => {
               sendChatAction({
                 from: user,
                 msg: textValue,
-                topic: activeTopic
+                topic: activeTopic,
               });
               changeTextValue("");
             }}
