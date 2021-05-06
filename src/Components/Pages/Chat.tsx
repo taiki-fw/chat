@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import { CTX } from "../../Store";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Chip from "@material-ui/core/Chip";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-
-import { CTX } from "./Store";
+import {
+  Paper,
+  Typography,
+  List,
+  Chip,
+  Button,
+  TextField,
+} from "@material-ui/core";
+import { SpeechBalloon } from "../Atoms";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,52 +36,34 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: "15%",
+    marginRight: "10px",
   },
 }));
 
-export default function Dashboard() {
+export function Chat() {
   const classes = useStyles();
+  const { chatId } = useParams<{ chatId: string }>();
 
   const { allChats, sendChatAction, user } = React.useContext(CTX);
-  const topics = Object.keys(allChats);
-
-  // local State
-  const [activeTopic, changeActiveTopic] = React.useState(topics[0]);
   const [textValue, changeTextValue] = useState("");
+
+  const chatData = allChats[chatId];
 
   return (
     <div>
       <Paper className={classes.root}>
-        <Typography variant="h4" component="h4">
-          Chat App
-        </Typography>
         <Typography variant="h5" component="h5">
-          {activeTopic}
+          {chatId}
         </Typography>
         <div className={classes.flex}>
-          <div className={classes.topicWindow}>
-            <List>
-              {topics.map((topic, index) => (
-                <ListItem
-                  onClick={(e) => changeActiveTopic(topic)}
-                  key={index}
-                  button
-                >
-                  <ListItemText primary={topic} />
-                </ListItem>
-              ))}
-            </List>
-          </div>
           <div className={classes.chatWindow}>
             <List>
               {
                 // @ts-ignore
-                allChats[activeTopic].map((chat, index) => (
+                chatData.map((chat, index) => (
                   <div className={classes.flex} key={index}>
                     <Chip label={chat.from} className={classes.button} />
-                    <Typography variant="body1" gutterBottom>
-                      {chat.msg}
-                    </Typography>
+                    <SpeechBalloon>{chat.msg}</SpeechBalloon>
                   </div>
                 ))
               }
@@ -99,7 +82,7 @@ export default function Dashboard() {
               sendChatAction({
                 from: user,
                 msg: textValue,
-                topic: activeTopic,
+                topic: chatId,
               });
               changeTextValue("");
             }}

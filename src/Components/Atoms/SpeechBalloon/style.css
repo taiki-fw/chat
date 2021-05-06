@@ -1,0 +1,10 @@
+.speeach-ballon {
+  position: relative;
+  display: inline-block;
+  padding: 0.15rem 1rem;
+  font-size: 1.15rem;
+  text-align: center;
+  color: white;
+  background-color: #a58eff;
+  border-radius: 15px;
+}
